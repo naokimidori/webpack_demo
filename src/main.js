@@ -22,3 +22,18 @@ img2.classList.add('img')
 document.body.append(img2)
 
 console.log(about);
+
+
+// 跨域请求
+const ul = document.createElement('ul')
+document.body.append(ul)
+
+fetch('/api/users')
+  .then(res => res.json())
+  .then(data => {
+    data.forEach(item => {
+      const li = document.createElement('li')
+      li.textContent = item.login
+      ul.append(li)
+    })
+  })

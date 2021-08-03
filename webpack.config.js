@@ -31,6 +31,21 @@ module.exports = {
     path: path.join(__dirname, 'dist'),
     // publicPath: 'dist/'
   },
+  devServer: {
+    contentBase: './public', // 静态资源访问
+    // 代理-> 解决跨域
+    proxy: {
+      '/api': {
+        // http://localhost:8080/api/users -> https://api.github.com/api/users
+        target: 'https://api.github.com',
+        // http://localhost:8080/api/users -> https://api.github.com/users
+        pathRewrite: {
+          '^/api': ''
+        },
+        changeOrigin: true
+      }
+    }
+  },
   module: {
     rules: [
       {
@@ -72,14 +87,15 @@ module.exports = {
   plugins: [
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
-      title: 'vino',
       template: './index.html'
     }),
-    new CopyWebpackPlugin({
-      patterns: [
-        { from: 'public', to: ''}
-      ]
-    }),
-    new MyPlugin()
+    // // 开发阶段最好不使用这个插件
+    // new CopyWebpackPlugin({
+    //   patterns: [
+    //     { from: 'public', to: ''}
+    //   ]
+    // }),
+    // // 自定义插件
+    // new MyPlugin()
   ]
 }
