@@ -3,6 +3,26 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 
+// 自定义插件：去除js文件中的/********/注释
+class MyPlugin {
+  apply(compiler) {
+    compiler.hooks.emit.tap('MyPlugin', compilation => {
+      for (const name in compilation.assets) {
+        console.log()
+        if (name.endsWith('.js')) {
+          const content = compilation.assets[name].source()
+          const withoutComments = content.replace(/\/\*+\*\//g, '')
+
+          compilation.assets[name] = {
+            source: () => withoutComments,
+            size: withoutComments.length,
+          }
+        }
+      }
+    })
+  }
+}
+
 module.exports = {
   mode: 'none',
   entry: './src/main.js',
@@ -59,6 +79,7 @@ module.exports = {
       patterns: [
         { from: 'public', to: ''}
       ]
-    })
+    }),
+    new MyPlugin()
   ]
 }
