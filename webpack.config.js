@@ -102,5 +102,10 @@ module.exports = {
     // new MyPlugin()
     // 配置HMR插件
     new webpack.HotModuleReplacementPlugin()
-  ]
+  ],
+  // 优化项
+  optimization: {
+    usedExports: true, // 只导出有用的
+    minimize: true, // 压缩
+  }
 }
