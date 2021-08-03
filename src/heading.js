@@ -8,6 +8,8 @@ export default () => {
   ele.addEventListener('click', () => {
     alert('hello world')
   })
+  
+  console.log('haha')
 
   return ele
 }

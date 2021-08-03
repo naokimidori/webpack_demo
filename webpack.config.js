@@ -1,3 +1,4 @@
+const webpack = require('webpack')
 const path = require('path')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
@@ -32,6 +33,7 @@ module.exports = {
     // publicPath: 'dist/'
   },
   devServer: {
+    hot: true,
     contentBase: './public', // 静态资源访问
     // 代理-> 解决跨域
     proxy: {
@@ -46,6 +48,7 @@ module.exports = {
       }
     }
   },
+  devtool: 'source-map',
   module: {
     rules: [
       {
@@ -97,5 +100,7 @@ module.exports = {
     // }),
     // // 自定义插件
     // new MyPlugin()
+    // 配置HMR插件
+    new webpack.HotModuleReplacementPlugin()
   ]
 }
